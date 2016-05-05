@@ -1,26 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ChatChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="ChatChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xeb-FY-BKL">
+                                <rect key="frame" x="60" y="475" width="200" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="7Ue-x6-Z7K"/>
+                                    <constraint firstAttribute="height" constant="44" id="Jpp-Si-Qjc"/>
+                                </constraints>
+                                <state key="normal" title="Login anonymously">
+                                    <color key="titleColor" red="0.99215686274509807" green="0.53333333333333333" blue="0.16078431372549021" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginDidTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MoL-tg-RoD"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ChatChat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ue-us-ang">
+                                <rect key="frame" x="50" y="116" width="220" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="QQB-k0-uZL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.6025605196278041" blue="0.20903238829200022" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="1ue-us-ang" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="96" id="DNC-uF-BUm"/>
+                            <constraint firstItem="1ue-us-ang" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EBx-Zu-iD5"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xeb-FY-BKL" secondAttribute="bottom" constant="49" id="J70-iA-uhD"/>
+                            <constraint firstItem="xeb-FY-BKL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="u57-Mz-4qC"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Xbj-py-xlQ"/>
+                    <connections>
+                        <segue destination="Xxf-8n-YND" kind="modal" identifier="LoginToChat" id="1BA-P0-3OA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1194" y="299"/>
+        </scene>
+        <!--ChatChat-->
+        <scene sceneID="Oci-Zb-IgF">
+            <objects>
+                <viewController id="Bka-ka-YE4" customClass="ChatViewController" customModule="ChatChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XZk-tK-gWv"/>
+                        <viewControllerLayoutGuide type="bottom" id="tUJ-2t-FXb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ysa-EX-DVm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="ChatChat" id="7lj-pC-dKg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sBM-da-UFN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1977" y="299"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="RSJ-C2-SnI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xxf-8n-YND" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Msi-hV-kTh"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Rwq-6U-2wC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Bka-ka-YE4" kind="relationship" relationship="rootViewController" id="GkI-Wk-7bI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Orf-4P-oa6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1581" y="299"/>
         </scene>
     </scenes>
 </document>

@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		6D0337A58C5C32D4BB4FF21D /* Pods_ChatChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D6367DF81DD037EFA873AF5 /* Pods_ChatChat.framework */; };
 		DAE55FB51CDAEE0A00ACE0E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE55FB41CDAEE0A00ACE0E8 /* AppDelegate.swift */; };
-		DAE55FB71CDAEE0A00ACE0E8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE55FB61CDAEE0A00ACE0E8 /* ViewController.swift */; };
 		DAE55FBA1CDAEE0A00ACE0E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAE55FB81CDAEE0A00ACE0E8 /* Main.storyboard */; };
 		DAE55FBC1CDAEE0A00ACE0E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAE55FBB1CDAEE0A00ACE0E8 /* Assets.xcassets */; };
 		DAE55FBF1CDAEE0A00ACE0E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAE55FBD1CDAEE0A00ACE0E8 /* LaunchScreen.storyboard */; };
 		DAE55FCA1CDAEE0A00ACE0E8 /* ChatChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE55FC91CDAEE0A00ACE0E8 /* ChatChatTests.swift */; };
 		DAE55FD51CDAEE0A00ACE0E8 /* ChatChatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE55FD41CDAEE0A00ACE0E8 /* ChatChatUITests.swift */; };
+		DAE55FEF1CDAFBA500ACE0E8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE55FEE1CDAFBA500ACE0E8 /* LoginViewController.swift */; };
+		DAE55FF11CDB0C7700ACE0E8 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE55FF01CDB0C7700ACE0E8 /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +41,6 @@
 		5D6367DF81DD037EFA873AF5 /* Pods_ChatChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE55FB11CDAEE0A00ACE0E8 /* ChatChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE55FB41CDAEE0A00ACE0E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DAE55FB61CDAEE0A00ACE0E8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
 		DAE55FB91CDAEE0A00ACE0E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DAE55FBB1CDAEE0A00ACE0E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAE55FBE1CDAEE0A00ACE0E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +51,8 @@
 		DAE55FD01CDAEE0A00ACE0E8 /* ChatChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE55FD41CDAEE0A00ACE0E8 /* ChatChatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChatUITests.swift; sourceTree = "<group>"; };
 		DAE55FD61CDAEE0A00ACE0E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAE55FEE1CDAFBA500ACE0E8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DAE55FF01CDB0C7700ACE0E8 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +178,8 @@
 		DAE55FED1CDAEF4200ACE0E8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				DAE55FB61CDAEE0A00ACE0E8 /* ViewController.swift */,
+				DAE55FEE1CDAFBA500ACE0E8 /* LoginViewController.swift */,
+				DAE55FF01CDB0C7700ACE0E8 /* ChatViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -363,7 +366,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE55FB71CDAEE0A00ACE0E8 /* ViewController.swift in Sources */,
+				DAE55FEF1CDAFBA500ACE0E8 /* LoginViewController.swift in Sources */,
+				DAE55FF11CDB0C7700ACE0E8 /* ChatViewController.swift in Sources */,
 				DAE55FB51CDAEE0A00ACE0E8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +515,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = QuanHuynh.ChatChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -523,6 +528,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = QuanHuynh.ChatChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
