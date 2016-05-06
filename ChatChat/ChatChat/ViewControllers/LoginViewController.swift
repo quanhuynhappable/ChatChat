@@ -12,7 +12,7 @@ import Firebase
 class LoginViewController: UIViewController {
     
     // MARK: Properties
-    var ref = Firebase(url: "https://demochatchat.firebaseio.com")
+    let ref = Firebase(url: "https://demochatchat.firebaseio.com")
     
     // MARK: UIViewController LifeCycle
     override func viewDidLoad() {

@@ -123,9 +123,6 @@
 		DAE55FB31CDAEE0A00ACE0E8 /* ChatChat */ = {
 			isa = PBXGroup;
 			children = (
-				DAE55FEA1CDAEF4200ACE0E8 /* Models */,
-				DAE55FEB1CDAEF4200ACE0E8 /* Resources */,
-				DAE55FEC1CDAEF4200ACE0E8 /* Services */,
 				DAE55FED1CDAEF4200ACE0E8 /* ViewControllers */,
 				DAE55FB41CDAEE0A00ACE0E8 /* AppDelegate.swift */,
 				DAE55FB81CDAEE0A00ACE0E8 /* Main.storyboard */,
@@ -152,27 +149,6 @@
 				DAE55FD61CDAEE0A00ACE0E8 /* Info.plist */,
 			);
 			path = ChatChatUITests;
-			sourceTree = "<group>";
-		};
-		DAE55FEA1CDAEF4200ACE0E8 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		DAE55FEB1CDAEF4200ACE0E8 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		DAE55FEC1CDAEF4200ACE0E8 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		DAE55FED1CDAEF4200ACE0E8 /* ViewControllers */ = {
