@@ -20,7 +20,7 @@ class ChatViewController: JSQMessagesViewController {
     var messageRef = Firebase!()
     var userIsTypingRef: Firebase!
     private var localTyping = false
-    var isTyping:Bool {
+    var isTyping: Bool {
         get {
             return localTyping
         }
@@ -30,6 +30,8 @@ class ChatViewController: JSQMessagesViewController {
         }
     }
     var userTypingQuery: FQuery!
+    var isAnonymously: Bool!
+    var userEmail: String!
     
     // MARK: UIViewController Lifecycle
     override func viewDidLoad() {
@@ -38,6 +40,7 @@ class ChatViewController: JSQMessagesViewController {
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
         messageRef = rootRef.childByAppendingPath("messages")
+        print(isAnonymously)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -83,7 +86,8 @@ class ChatViewController: JSQMessagesViewController {
         let itemRef = messageRef.childByAutoId()
         let messageItem = [
             "text": text,
-            "senderId": senderId
+            "senderId": senderId,
+            "userEmail": self.userEmail
         ]
         itemRef.setValue(messageItem)
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
@@ -103,7 +107,12 @@ class ChatViewController: JSQMessagesViewController {
         messagesQuery.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
             let id = snapshot.value["senderId"] as! String
             let text = snapshot.value["text"] as! String
-            self.addMessage(id, text: text)
+            let email = snapshot.value["userEmail"] as! String
+            if self.senderId != id {
+                self.addMessage(id, text: "\(email):\n\(text)")
+            } else {
+                self.addMessage(id, text: text)
+            }
             self.finishReceivingMessage()
         }
     }

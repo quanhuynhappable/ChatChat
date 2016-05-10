@@ -40,13 +40,46 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zSY-U3-Fzn">
+                                <rect key="frame" x="60" y="423" width="200" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="JXY-I5-Igr"/>
+                                    <constraint firstAttribute="width" constant="200" id="cKg-1e-yLw"/>
+                                </constraints>
+                                <state key="normal" title="Login Account">
+                                    <color key="titleColor" red="0.99215686274509807" green="0.53333333333333333" blue="0.16078431372549021" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginAccountDidTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oWu-Lg-hEW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MR7-m1-z30">
+                                <rect key="frame" x="123" y="385" width="75" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="3ll-ox-al4"/>
+                                    <constraint firstAttribute="height" constant="30" id="a8c-hh-Fei"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Register!">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerDidTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MeP-zj-fBJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.6025605196278041" blue="0.20903238829200022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1ue-us-ang" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="96" id="DNC-uF-BUm"/>
                             <constraint firstItem="1ue-us-ang" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EBx-Zu-iD5"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xeb-FY-BKL" secondAttribute="bottom" constant="49" id="J70-iA-uhD"/>
+                            <constraint firstItem="zSY-U3-Fzn" firstAttribute="top" secondItem="MR7-m1-z30" secondAttribute="bottom" constant="8" id="SYd-Xa-RzY"/>
+                            <constraint firstItem="zSY-U3-Fzn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hBe-oj-fEs"/>
+                            <constraint firstItem="MR7-m1-z30" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="twC-gr-tOT"/>
                             <constraint firstItem="xeb-FY-BKL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="u57-Mz-4qC"/>
+                            <constraint firstItem="xeb-FY-BKL" firstAttribute="top" secondItem="zSY-U3-Fzn" secondAttribute="bottom" constant="8" id="wuT-XS-vZF"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xbj-py-xlQ"/>
@@ -88,6 +121,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="a9o-Rm-UBE">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="Bka-ka-YE4" kind="relationship" relationship="rootViewController" id="GkI-Wk-7bI"/>
                     </connections>
