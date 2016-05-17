@@ -8,74 +8,15 @@
 
 import Foundation
 import UIKit
-import Firebase
 class LoginViewController: UIViewController {
     
     // MARK: Properties
-    let ref = Firebase(url: "https://demochatchat.firebaseio.com")
-    var isAnonymously: Bool!
+    var isAnonymous: Bool!
     var userEmail: String!
     
     // MARK: UIViewController LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    }
-    
-    // MARK: Actions
-    @IBAction func loginDidTouch(sender: AnyObject) {
-        ref.authAnonymouslyWithCompletionBlock { (error, authData) in
-            if error != nil {
-                print(error.description)
-                return
-            }
-            self.isAnonymously = true
-            self.performSegueWithIdentifier("LoginToChat", sender: nil)
-        }
-    }
-    
-    @IBAction func loginAccountDidTouch(sender: AnyObject) {
-        let alert = UIAlertController(title: "Login", message: "Login", preferredStyle: .Alert)
-        
-        let loginAction = UIAlertAction(title: "Login", style: .Default) { (UIAlertAction) -> Void in
-            let emailField = alert.textFields![0]
-            let passwordField = alert.textFields![1]
-            self.ref.authUser(emailField.text, password: passwordField.text, withCompletionBlock: { (error, auth) -> Void in
-                if error == nil {
-                    self.isAnonymously = false
-                    self.userEmail = emailField.text
-                    self.performSegueWithIdentifier("LoginToChat", sender: nil)
-                }
-            })
-        }
-        
-        addActionForAlertController(alert, action: loginAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
-    @IBAction func registerDidTouch(sender: AnyObject) {
-        let alert = UIAlertController(title: "Register", message: "Register", preferredStyle: .Alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .Default) { (UIAlertAction) -> Void in
-            let emailField = alert.textFields![0]
-            let passwordField = alert.textFields![1]
-            self.ref.createUser(emailField.text, password: passwordField.text) { (error, auth) -> Void in
-                if error == nil {
-                    self.ref.authUser(emailField.text, password: passwordField.text, withCompletionBlock: {(error, auth) -> Void in
-                    })
-                    let successAlert = UIAlertView(title: "", message: "Register Successfully!", delegate: nil, cancelButtonTitle: "OK")
-                    successAlert.show()
-                } else {
-                    let errorAlert = UIAlertView(title: "Error", message: error.description, delegate: nil, cancelButtonTitle: "OK")
-                    errorAlert.show()
-                }
-            }
-        }
-        
-        addActionForAlertController(alert, action: saveAction)
-        
-        presentViewController(alert, animated: true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -83,29 +24,55 @@ class LoginViewController: UIViewController {
         let navViewController = segue.destinationViewController as! UINavigationController
         let chatViewController = navViewController.viewControllers.first as! ChatViewController
         chatViewController.senderId = ref.authData.uid
-        chatViewController.senderDisplayName = ""
-        chatViewController.isAnonymously = isAnonymously
-        if isAnonymously == false {
+        chatViewController.senderDisplayName = NIL_MESSAGE
+        chatViewController.isAnonymous = isAnonymous
+        if isAnonymous == false {
             chatViewController.userEmail = userEmail
         } else {
-            chatViewController.userEmail = "ThanhNiênẨnDanh@chatchat.com"
+            chatViewController.userEmail = USEREMAIL_ANONYMOUSLY
+        }
+    }
+}
+
+//MARK: Actions
+extension LoginViewController {
+    //MARK: Login Actions
+    @IBAction func loginDidTouch(sender: AnyObject) {
+        FirebaseUserService.authenticateAnonymously { (error) -> Void in
+            if error != nil {
+                return
+            }
+            self.isAnonymous = true
+            self.performSegueWithIdentifier(SEGUE_ID, sender: nil)
         }
     }
     
-    func addActionForAlertController(alert: UIAlertController, action: UIAlertAction) {
-        alert.addTextFieldWithConfigurationHandler { (textEmail) -> Void in
-            textEmail.placeholder = "Enter your email"
+    @IBAction func loginAccountDidTouch(sender: AnyObject) {
+        let alert = UIAlertController(title: LOGIN_MESSAGE, message: NIL_MESSAGE, preferredStyle: .Alert)
+        let loginAction = UIAlertAction(title: LOGIN_MESSAGE, style: .Default) { (UIAlertAction) -> Void in
+            let emailField = alert.textFields![0]
+            let passwordField = alert.textFields![1]
+            FirebaseUserService.authenticateUser(emailField.text!, password: passwordField.text!, callback: { (user, error) -> Void in
+                if error == nil {
+                    self.isAnonymous = false
+                    self.userEmail = user!.valueForKey(KEY_EMAIL) as! String
+                    self.performSegueWithIdentifier(SEGUE_ID, sender: nil)
+                }
+            })
         }
-        
-        alert.addTextFieldWithConfigurationHandler { (textPassword) -> Void in
-            textPassword.secureTextEntry = true
-            textPassword.placeholder = "Enter your password"
+        Utilities.addActionForAlertController(alert, action: loginAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: Register Actions
+    @IBAction func registerDidTouch(sender: AnyObject) {
+        let alert = UIAlertController(title: REGISTER_MESSAGE, message: NIL_MESSAGE, preferredStyle: .Alert)
+        let saveAction = UIAlertAction(title: SAVE_MESSAGE, style: .Default) { (UIAlertAction) -> Void in
+            let emailField = alert.textFields![0]
+            let passwordField = alert.textFields![1]
+            FirebaseUserService.createAccount(emailField.text!, password: passwordField.text!)
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (UIAlertAction) -> Void in
-        }
-        
-        alert.addAction(action)
-        alert.addAction(cancelAction)
+        Utilities.addActionForAlertController(alert, action: saveAction)
+        presentViewController(alert, animated: true, completion: nil)
     }
 }

@@ -16,9 +16,8 @@ class ChatViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
     var outgoingBubbleImageView: JSQMessagesBubbleImage!
     var incomingBubbleImageView: JSQMessagesBubbleImage!
-    let rootRef = Firebase(url: "https://demochatchat.firebaseio.com/")
-    var messageRef = Firebase!()
     var userIsTypingRef: Firebase!
+    var itemRef: Firebase!
     private var localTyping = false
     var isTyping: Bool {
         get {
@@ -30,7 +29,7 @@ class ChatViewController: JSQMessagesViewController {
         }
     }
     var userTypingQuery: FQuery!
-    var isAnonymously: Bool!
+    var isAnonymous: Bool!
     var userEmail: String!
     
     // MARK: UIViewController Lifecycle
@@ -39,17 +38,63 @@ class ChatViewController: JSQMessagesViewController {
         setupBubbles()
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSizeZero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
-        messageRef = rootRef.childByAppendingPath("messages")
-        print(isAnonymously)
+        print(isAnonymous)
+        print(userEmail)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        observeMessages()
+        if isAnonymous == true {
+            observeMessages(anonymousMessageRef)
+        } else {
+            observeMessages(messageRef)
+        }
         observeTyping()
     }
     
-    // MARK: CollectionView Methods
+    // MARK: Private Methods
+    private func setupBubbles() {
+        let factory = JSQMessagesBubbleImageFactory()
+        outgoingBubbleImageView = factory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleRedColor())
+        incomingBubbleImageView = factory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleGreenColor())
+    }
+    
+    private func observeMessages(ref: Firebase!) {
+        let messagesQuery = ref.queryLimitedToLast(30)
+        messagesQuery.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
+            let id = snapshot.value[KEY_SENDERID] as! String
+            let text = snapshot.value[KEY_TEXT] as! String
+            let email = snapshot.value[KEY_USEREMAIL] as! String
+            if self.senderId != id {
+                FirebaseMessageService.addMessage(id, text: "\(email):\n\(text)", messages: &self.messages)
+            } else {
+                FirebaseMessageService.addMessage(id, text: text, messages: &self.messages)
+            }
+            self.finishReceivingMessage()
+            
+        }
+    }
+    
+    private func observeTyping() {
+        userIsTypingRef = typingIndicatorRef.childByAppendingPath(senderId)
+        userIsTypingRef.onDisconnectRemoveValue()
+        userTypingQuery = typingIndicatorRef.queryOrderedByValue().queryEqualToValue(true)
+        userTypingQuery.observeEventType(.Value){ (data: FDataSnapshot!) in
+            if data.childrenCount == 1 && self.isTyping {
+                return
+            }
+            self.showTypingIndicator = data.childrenCount > 0
+            self.scrollToBottomAnimated(true)
+        }
+    }
+    
+    override func textViewDidChange(textView: UITextView) {
+        super.textViewDidChange(textView)
+        isTyping = textView.text != NIL_MESSAGE
+    }
+}
+//MARK: CollectionView Methods
+extension ChatViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         return messages[indexPath.item]
     }
@@ -83,61 +128,19 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let itemRef = messageRef.childByAutoId()
+        if isAnonymous == true {
+            itemRef = anonymousMessageRef.childByAutoId()
+        } else {
+            itemRef = messageRef.childByAutoId()
+        }
         let messageItem = [
-            "text": text,
-            "senderId": senderId,
-            "userEmail": self.userEmail
+            KEY_TEXT: text,
+            KEY_SENDERID: senderId,
+            KEY_USEREMAIL: self.userEmail
         ]
         itemRef.setValue(messageItem)
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         finishSendingMessage()
         isTyping = false
-    }
-    
-    // MARK: Private Methods
-    private func setupBubbles() {
-        let factory = JSQMessagesBubbleImageFactory()
-        outgoingBubbleImageView = factory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleRedColor())
-        incomingBubbleImageView = factory.incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleGreenColor())
-    }
-    
-    private func observeMessages() {
-        let messagesQuery = messageRef.queryLimitedToLast(30)
-        messagesQuery.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
-            let id = snapshot.value["senderId"] as! String
-            let text = snapshot.value["text"] as! String
-            let email = snapshot.value["userEmail"] as! String
-            if self.senderId != id {
-                self.addMessage(id, text: "\(email):\n\(text)")
-            } else {
-                self.addMessage(id, text: text)
-            }
-            self.finishReceivingMessage()
-        }
-    }
-    
-    private func observeTyping() {
-        let typingIndicatorRef = rootRef.childByAppendingPath("typingIndicator")
-        userIsTypingRef = typingIndicatorRef.childByAppendingPath(senderId)
-        userIsTypingRef.onDisconnectRemoveValue()
-        userTypingQuery = typingIndicatorRef.queryOrderedByValue().queryEqualToValue(true)
-        userTypingQuery.observeEventType(.Value){ (data: FDataSnapshot!) in
-            if data.childrenCount == 1 && self.isTyping {
-                return
-            }
-            self.showTypingIndicator = data.childrenCount > 0
-            self.scrollToBottomAnimated(true)
-        }
-    }
-    
-    func addMessage(id: String, text: String) {
-        let message = JSQMessage(senderId: id, displayName: "", text: text)
-        messages.append(message)
-    }
-    
-    override func textViewDidChange(textView: UITextView) {
-        super.textViewDidChange(textView)
-        isTyping = textView.text != ""
     }
 }
