@@ -7,15 +7,17 @@
 //
 
 import Foundation
+import Firebase
 import UIKit
 class FirebaseUserService: UserService {
     static func authenticateUser(email: String, password: String, callback: ((user: AnyObject?, error: NSError?) -> Void)) {
         ref.authUser(email, password: password, withCompletionBlock: { (error, auth) -> Void in
             if error == nil {
-                let user = [
-                    KEY_EMAIL: email,
-                    KEY_PASSWORD: password]
-                callback(user: user, error: nil)
+                let userQuery = userRef.queryOrderedByChild(auth.uid)
+                userQuery.observeEventType(.Value) { (snapshot: FDataSnapshot!) in
+                    let user = snapshot.value[auth.uid]
+                    callback(user: user, error: nil)
+                }
             } else {
                 callback(user: nil, error: error)
             }
@@ -32,10 +34,17 @@ class FirebaseUserService: UserService {
         }
     }
     
-    static func createAccount(email: String, password: String) {
+    static func createAccount(email: String, password: String, username:String) {
         ref.createUser(email, password: password) { (error, auth) -> Void in
             if error == nil {
                 ref.authUser(email, password: password, withCompletionBlock: {(error, auth) -> Void in
+                    itemRef = userRef.childByAppendingPath(auth.uid)
+                    let userItem = [
+                        KEY_USERNAME: username,
+                        KEY_SENDERID: auth.uid,
+                        KEY_USEREMAIL: email
+                    ]
+                    itemRef.setValue(userItem)
                 })
                 Utilities.showAlert(REGISTER_MESSAGE, message: REGISTER_SUCCESS_MESSAGE)
             } else {

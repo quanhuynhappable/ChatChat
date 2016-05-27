@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import Firebase
 class LoginViewController: UIViewController {
     
     // MARK: Properties
     var isAnonymous: Bool!
-    var userEmail: String!
+    var username: String!
     
     // MARK: UIViewController LifeCycle
     override func viewDidLoad() {
@@ -27,9 +28,9 @@ class LoginViewController: UIViewController {
         chatViewController.senderDisplayName = NIL_MESSAGE
         chatViewController.isAnonymous = isAnonymous
         if isAnonymous == false {
-            chatViewController.userEmail = userEmail
+            chatViewController.username = username
         } else {
-            chatViewController.userEmail = USEREMAIL_ANONYMOUSLY
+            chatViewController.username = USEREMAIL_ANONYMOUSLY
         }
     }
 }
@@ -55,7 +56,7 @@ extension LoginViewController {
             FirebaseUserService.authenticateUser(emailField.text!, password: passwordField.text!, callback: { (user, error) -> Void in
                 if error == nil {
                     self.isAnonymous = false
-                    self.userEmail = user!.valueForKey(KEY_EMAIL) as! String
+                    self.username = user!.valueForKey(KEY_USERNAME) as! String
                     self.performSegueWithIdentifier(SEGUE_ID, sender: nil)
                 }
             })
@@ -70,9 +71,13 @@ extension LoginViewController {
         let saveAction = UIAlertAction(title: SAVE_MESSAGE, style: .Default) { (UIAlertAction) -> Void in
             let emailField = alert.textFields![0]
             let passwordField = alert.textFields![1]
-            FirebaseUserService.createAccount(emailField.text!, password: passwordField.text!)
+            let usernameField = alert.textFields![2]
+            FirebaseUserService.createAccount(emailField.text!, password: passwordField.text!, username: usernameField.text!)
         }
         Utilities.addActionForAlertController(alert, action: saveAction)
+        alert.addTextFieldWithConfigurationHandler { (textUsername) -> Void in
+            textUsername.placeholder = ENTER_USERNAME_MESSAGE
+        }
         presentViewController(alert, animated: true, completion: nil)
     }
 }

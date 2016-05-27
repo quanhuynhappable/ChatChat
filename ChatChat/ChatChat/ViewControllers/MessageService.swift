@@ -10,4 +10,9 @@ import Foundation
 import JSQMessagesViewController
 protocol MessageService {
     static func addMessage(id: String, text: String, inout messages: [JSQMessage])
+    static func addImageWithUrl(id: String, urlString: String, inout messages: [JSQMessage])
+    static func addImageUploadFromDevice(id: String, urlString: String, inout messages: [JSQMessage])
+    static func addImageUrlToDatabase(isAnonymous: Bool, url: String, id: String, username:String)
+    static func addMessageToDatabase(isAnonymous: Bool, text: String, id: String, username: String)
+    static func addImageFromDeviceToDatabase(isAnonymous: Bool, url:String, id: String, username: String)
 }

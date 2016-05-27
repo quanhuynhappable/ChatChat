@@ -13,4 +13,63 @@ class FirebaseMessageService: MessageService {
         let message = JSQMessage(senderId: id, displayName: NIL_MESSAGE, text: text)
         messages.append(message)
     }
+    
+    static func addImageUploadFromDevice(id: String, urlString: String, inout messages: [JSQMessage]) {
+        let data = NSData(base64EncodedString: urlString, options: .IgnoreUnknownCharacters)
+        let image = UIImage(data: data!)
+        let jsqPhoto = JSQPhotoMediaItem(image: image!)
+        let message = JSQMessage(senderId: id, displayName: NIL_MESSAGE, media: jsqPhoto)
+        messages.append(message)
+    }
+
+    static func addImageWithUrl(id: String, urlString: String, inout messages: [JSQMessage]) {
+        let url = NSURL(string: urlString)
+        let data = NSData(contentsOfURL: url!)
+        let image = UIImage(data: data!)
+        let jsqPhoto = JSQPhotoMediaItem(image: image!)
+        let message = JSQMessage(senderId: id, displayName: NIL_MESSAGE, media: jsqPhoto)
+        messages.append(message)
+    }
+    static func addMessageToDatabase(isAnonymous: Bool, text: String, id: String, username: String) {
+        if isAnonymous == true {
+            itemRef = anonymousMessageRef.childByAutoId()
+        } else {
+            itemRef = messageRef.childByAutoId()
+        }
+        let messageItem = [
+            KEY_TEXT: text,
+            KEY_SENDERID: id,
+            KEY_USERNAME: username,
+            KEY_TYPE: KEY_TEXT
+        ]
+        itemRef.setValue(messageItem)
+    }
+    static func addImageUrlToDatabase(isAnonymous: Bool, url: String, id: String, username:String) {
+        if isAnonymous == true {
+            itemRef = anonymousMessageRef.childByAutoId()
+        } else {
+            itemRef = messageRef.childByAutoId()
+        }
+        let messageItem = [
+            KEY_IMAGE_URL: url,
+            KEY_SENDERID: id,
+            KEY_USERNAME: username,
+            KEY_TYPE: KEY_IMAGE_URL
+        ]
+        itemRef.setValue(messageItem)
+    }
+    static func addImageFromDeviceToDatabase(isAnonymous: Bool, url: String, id: String, username: String) {
+        if isAnonymous == true {
+            itemRef = anonymousMessageRef.childByAutoId()
+        } else {
+            itemRef = messageRef.childByAutoId()
+        }
+        let messageItem = [
+            KEY_IMAGE_URL: url,
+            KEY_SENDERID: id,
+            KEY_USERNAME: username,
+            KEY_TYPE: KEY_IMAGE
+        ]
+        itemRef.setValue(messageItem)
+    }
 }
