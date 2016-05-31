@@ -67,6 +67,7 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
             let id = snapshot.value[KEY_SENDERID] as! String
             let username = snapshot.value[KEY_USERNAME] as! String
             let type = snapshot.value[KEY_TYPE] as! String
+            let isSameId = (self.senderId == id)
             if type == KEY_TEXT {
                 let text = snapshot.value[KEY_TEXT] as! String
                 if self.senderId != id {
@@ -76,10 +77,10 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
                 }
             } else if type == KEY_IMAGE_URL {
                 let urlString = snapshot.value[KEY_IMAGE_URL] as! String
-                FirebaseMessageService.addImageWithUrl(id, urlString: urlString, messages: &self.messages)
+                FirebaseMessageService.addImageWithUrl(id, urlString: urlString, isSameId: isSameId, messages: &self.messages)
             } else if type == KEY_IMAGE {
                 let urlString = snapshot.value[KEY_IMAGE_URL] as! String
-                FirebaseMessageService.addImageUploadFromDevice(id, urlString: urlString, messages: &self.messages)
+                FirebaseMessageService.addImageUploadFromDevice(id, urlString: urlString, isSameId: isSameId, messages: &self.messages)
             }
             self.finishReceivingMessage()
         }
@@ -102,6 +103,13 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         super.textViewDidChange(textView)
         isTyping = textView.text != NIL_MESSAGE
     }
+    
+    @IBAction func logOutDidTouch(sender: UIBarButtonItem) {
+        ref.unauth()
+        let loginView = self.storyboard?.instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+        self.navigationController?.pushViewController(loginView, animated: true)
+    }
+    
 }
 //MARK: CollectionView Methods
 extension ChatViewController {
@@ -132,7 +140,6 @@ extension ChatViewController {
                 cell.textView!.textColor = UIColor.blackColor()
             }
         }
-        
         return cell
     }
     
@@ -170,6 +177,7 @@ extension ChatViewController {
         finishSendingMessage()
         isTyping = false
     }
+        
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {

@@ -8,7 +8,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="ChatChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" id="BYZ-38-t0r" customClass="LoginViewController" customModule="ChatChat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -104,11 +104,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ChatChat" id="7lj-pC-dKg"/>
+                    <navigationItem key="navigationItem" title="ChatChat" id="7lj-pC-dKg">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="UIw-mF-6B5">
+                            <connections>
+                                <action selector="logOutDidTouch:" destination="Bka-ka-YE4" id="iuv-kv-GF0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sBM-da-UFN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1977" y="299"/>
+            <point key="canvasLocation" x="1975" y="299"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RSJ-C2-SnI">

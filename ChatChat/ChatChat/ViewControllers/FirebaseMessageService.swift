@@ -14,22 +14,25 @@ class FirebaseMessageService: MessageService {
         messages.append(message)
     }
     
-    static func addImageUploadFromDevice(id: String, urlString: String, inout messages: [JSQMessage]) {
+    static func addImageUploadFromDevice(id: String, urlString: String, isSameId: Bool, inout messages: [JSQMessage]) {
         let data = NSData(base64EncodedString: urlString, options: .IgnoreUnknownCharacters)
         let image = UIImage(data: data!)
         let jsqPhoto = JSQPhotoMediaItem(image: image!)
+        jsqPhoto.appliesMediaViewMaskAsOutgoing = isSameId
         let message = JSQMessage(senderId: id, displayName: NIL_MESSAGE, media: jsqPhoto)
         messages.append(message)
     }
 
-    static func addImageWithUrl(id: String, urlString: String, inout messages: [JSQMessage]) {
+    static func addImageWithUrl(id: String, urlString: String, isSameId:Bool, inout messages: [JSQMessage]) {
         let url = NSURL(string: urlString)
         let data = NSData(contentsOfURL: url!)
         let image = UIImage(data: data!)
         let jsqPhoto = JSQPhotoMediaItem(image: image!)
+        jsqPhoto.appliesMediaViewMaskAsOutgoing = isSameId
         let message = JSQMessage(senderId: id, displayName: NIL_MESSAGE, media: jsqPhoto)
         messages.append(message)
     }
+    
     static func addMessageToDatabase(isAnonymous: Bool, text: String, id: String, username: String) {
         if isAnonymous == true {
             itemRef = anonymousMessageRef.childByAutoId()

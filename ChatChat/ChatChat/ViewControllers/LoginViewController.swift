@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     // MARK: UIViewController LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBarHidden = true
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
